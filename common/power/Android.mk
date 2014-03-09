@@ -25,26 +25,26 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq (,$(filter-out tegra%,$(TARGET_BOARD_PLATFORM)))
-include $(NVIDIA_DEFAULTS)
+ifeq ($(TARGET_TEGRA_VERSION),t114)
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := libpowerhal
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 
-ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
-    ifeq ($(BOARD_USES_POWERHAL),true)
-        LOCAL_SRC_FILES += nvpowerhal.cpp timeoutpoker.cpp
-    else
-        LOCAL_SRC_FILES += powerhal_stub.cpp
-    endif
-else
+#ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
+#    ifeq ($(BOARD_USES_POWERHAL),true)
+#        LOCAL_SRC_FILES += nvpowerhal.cpp timeoutpoker.cpp
+#    else
+#        LOCAL_SRC_FILES += powerhal_stub.cpp
+#    endif
+#else
     LOCAL_SRC_FILES += powerhal_stub.cpp
-endif
+#endif
 
 LOCAL_SRC_FILES += powerhal_utils.cpp
 
 LOCAL_SHARED_LIBRARIES := liblog libcutils libutils
 LOCAL_MODULE_TAGS := optional
 
-include $(NVIDIA_STATIC_LIBRARY)
+include $(BUILD_STATIC_LIBRARY)
 endif

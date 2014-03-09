@@ -15,11 +15,9 @@
 
 LOCAL_PATH:= $(call my-dir)
 
-ifneq ($(TARGET_SIMULATOR),true)
-
 # HAL module implemenation, not prelinked and stored in
 # hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.board.platform>.so
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
 LOCAL_SRC_FILES := sensors.cpp
@@ -43,6 +41,4 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_MODULE := sensors.tegratab
 
-include $(NVIDIA_SHARED_LIBRARY)
-
-endif # !TARGET_SIMULATOR
+include $(BUILD_SHARED_LIBRARY)

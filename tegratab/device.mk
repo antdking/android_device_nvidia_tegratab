@@ -10,50 +10,6 @@ $(call inherit-product, build/target/product/languages_full.mk)
 
 PRODUCT_LOCALES += mdpi hdpi xhdpi
 
-ifeq ($(wildcard vendor/nvidia/tegra/core-private),vendor/nvidia/tegra/core-private)
-    NVFLASH_FILES_PATH := vendor/nvidia/tegra/customers/nvidia-partner/tegratab
-else
-    NVFLASH_FILES_PATH := vendor/nvidia/tegra/odm/tegratab
-endif
-
-PRODUCT_COPY_FILES += \
-    $(NVFLASH_FILES_PATH)/nvflash/P1640_Micron_1GB_MT41K128M16-125_408Mhz_v9_0_Hynix_1GB_H5TC2G63FFR-PBA_408Mhz_v2_0.cfg:bct.cfg \
-    $(NVFLASH_FILES_PATH)/nvflash/P1640_Micron_1GB_MT41K128M16-125_408Mhz_v9_0_Hynix_1GB_H5TC2G63FFR-PBA_408Mhz_v2_0.bct:flash.bct \
-    $(NVFLASH_FILES_PATH)/nvflash/P1640_Micron_1GB_MT41K128M16-125_408Mhz_v9_0_Hynix_1GB_H5TC2G63FFR-PBA_408Mhz_v2_0.cfg:flash_tegratab_p1640.cfg \
-    $(NVFLASH_FILES_PATH)/nvflash/P1640_Micron_1GB_MT41K128M16-125_408Mhz_v9_0_Hynix_1GB_H5TC2G63FFR-PBA_408Mhz_v2_0.bct:flash_tegratab_p1640.bct \
-    $(NVFLASH_FILES_PATH)/nvflash/P1988_512MBx2_MT41K128M16JT-125_408Mhz_4.1.7.bct:flash_tegratab_p1988.bct \
-    $(NVFLASH_FILES_PATH)/nvflash/P1988_512MBx2_MT41K128M16JT-125_408Mhz_4.1.7.cfg:flash_tegratab_p1988.cfg \
-    $(NVFLASH_FILES_PATH)/nvflash/E1569_Micron_1GB_MT41K128M16-125_408Mhz.cfg:flash_tegratab_e1569.cfg \
-    $(NVFLASH_FILES_PATH)/nvflash/E1569_Micron_1GB_MT41K128M16-125_408Mhz.bct:flash_tegratab_e1569.bct \
-    $(NVFLASH_FILES_PATH)/nvflash/eks_nokey.dat:eks.dat \
-    $(NVFLASH_FILES_PATH)/partition_data/config/nvcamera.conf:system/etc/nvcamera.conf \
-    $(NVFLASH_FILES_PATH)/nvflash/lowbat.bmp:lowbat.bmp \
-    $(NVFLASH_FILES_PATH)/nvflash/charging.bmp:charging.bmp \
-    $(NVFLASH_FILES_PATH)/nvflash/fuse_write.txt:fuse_write.txt \
-    $(NVFLASH_FILES_PATH)/nvflash/nct_gb.txt:nct_gb.txt \
-    $(NVFLASH_FILES_PATH)/nvflash/nct_gp.txt:nct_gp.txt \
-    $(NVFLASH_FILES_PATH)/nvflash/nct_nb.txt:nct_nb.txt \
-    $(NVFLASH_FILES_PATH)/nvflash/nct_np.txt:nct_np.txt
-
-ifeq ($(TARGET_PRODUCT),kalamata)
-    ifneq ($(wildcard vendor/nvidia/kalamata/media/hpLogo.bmp),)
-        PRODUCT_COPY_FILES += vendor/nvidia/kalamata/media/hpLogo.bmp:nvidia.bmp
-    else
-        PRODUCT_COPY_FILES += $(NVFLASH_FILES_PATH)/nvflash/nvidia.bmp:nvidia.bmp
-    endif
-else
-    PRODUCT_COPY_FILES += $(NVFLASH_FILES_PATH)/nvflash/nvidia.bmp:nvidia.bmp
-endif
-
-ifeq ($(APPEND_DTB_TO_KERNEL), true)
-PRODUCT_COPY_FILES += \
-    $(NVFLASH_FILES_PATH)/nvflash/android_fastboot_emmc_full.cfg:flash.cfg
-else
-NVFLASH_CFG_BASE_FILE := $(NVFLASH_FILES_PATH)/nvflash/android_fastboot_dtb_emmc_full_noxusb_nosif.cfg
-endif
-
-NVFLASH_FILES_PATH :=
-
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
@@ -71,70 +27,56 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml
 
-ifneq (,$(filter $(BOARD_INCLUDES_TEGRA_JNI),display))
 PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/hal/frameworks/Display/com.nvidia.display.xml:system/etc/permissions/com.nvidia.display.xml
-endif
-
-ifneq (,$(filter $(BOARD_INCLUDES_TEGRA_JNI),cursor))
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/hal/frameworks/Graphics/com.nvidia.graphics.xml:system/etc/permissions/com.nvidia.graphics.xml
-endif
-
-PRODUCT_COPY_FILES += \
-  $(LOCAL_PATH)/ueventd.tegratab.rc:root/ueventd.tegratab.rc \
-  $(LOCAL_PATH)/tegra-kbc.kl:system/usr/keylayout/tegra-kbc.kl \
-  $(LOCAL_PATH)/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-  $(LOCAL_PATH)/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
-  $(LOCAL_PATH)/raydium_ts.idc:system/usr/idc/raydium_ts.idc \
-  $(LOCAL_PATH)/sensor00fn11.idc:system/usr/idc/sensor00fn11.idc \
-  $(LOCAL_PATH)/../common/add_p2p_iface.sh:system/bin/add_p2p_iface.sh \
-  $(LOCAL_PATH)/touch_fusion.idc:system/usr/idc/touch_fusion.idc \
-  $(LOCAL_PATH)/../common/ussr_setup.sh:system/bin/ussr_setup.sh \
-  $(LOCAL_PATH)/../common/input_cfboost_init.sh:system/bin/input_cfboost_init.sh \
-  $(LOCAL_PATH)/../common/set_hwui_params.sh:system/bin/set_hwui_params.sh \
+  $(LOCAL_PATH)/configs/root/ueventd.tegratab.rc:root/ueventd.tegratab.rc \
+  $(LOCAL_PATH)/configs/usr/tegra-kbc.kl:system/usr/keylayout/tegra-kbc.kl \
+  $(LOCAL_PATH)/configs/usr/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+  $(LOCAL_PATH)/configs/etc/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
+  $(LOCAL_PATH)/configs/usr/raydium_ts.idc:system/usr/idc/raydium_ts.idc \
+  $(LOCAL_PATH)/configs/usr/sensor00fn11.idc:system/usr/idc/sensor00fn11.idc \
+  $(LOCAL_PATH)/configs/bin/add_p2p_iface.sh:system/bin/add_p2p_iface.sh \
+  $(LOCAL_PATH)/configs/usr/touch_fusion.idc:system/usr/idc/touch_fusion.idc \
+  $(LOCAL_PATH)/configs/bin/ussr_setup.sh:system/bin/ussr_setup.sh \
+  $(LOCAL_PATH)/configs/bin/input_cfboost_init.sh:system/bin/input_cfboost_init.sh \
+  $(LOCAL_PATH)/configs/bin/set_hwui_params.sh:system/bin/set_hwui_params.sh \
 
 PRODUCT_COPY_FILES += \
-  $(LOCAL_PATH)/sensor_init.sh:system/bin/sensor_init.sh
+  $(LOCAL_PATH)/configs/bin/sensor_init.sh:system/bin/sensor_init.sh
 
-ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
+#ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
+#PRODUCT_COPY_FILES += \
+#  $(LOCAL_PATH)/configs/etc/media_profiles.xml:system/etc/media_profiles.xml \
+#  $(LOCAL_PATH)/configs/etc/media_codecs.xml:system/etc/media_codecs.xml \
+#  $(LOCAL_PATH)/configs/etc/audio_policy.conf:system/etc/audio_policy.conf
+#else
 PRODUCT_COPY_FILES += \
-  $(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml \
-  $(LOCAL_PATH)/media_codecs.xml:system/etc/media_codecs.xml \
-  $(LOCAL_PATH)/audio_policy.conf:system/etc/audio_policy.conf
-else
-PRODUCT_COPY_FILES += \
-  $(LOCAL_PATH)/media_profiles_noenhance.xml:system/etc/media_profiles.xml \
-  $(LOCAL_PATH)/media_codecs_noenhance.xml:system/etc/media_codecs.xml \
-  $(LOCAL_PATH)/audio_policy_noenhance.conf:system/etc/audio_policy.conf
-endif
+  $(LOCAL_PATH)/configs/etc/media_profiles_noenhance.xml:system/etc/media_profiles.xml \
+  $(LOCAL_PATH)/configs/etc/media_codecs_noenhance.xml:system/etc/media_codecs.xml \
+  $(LOCAL_PATH)/configs/etc/audio_policy_noenhance.conf:system/etc/audio_policy.conf
+#endif
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/power.tegratab.rc:system/etc/power.tegratab.rc \
-    $(LOCAL_PATH)/init.tegratab.rc:root/init.tegratab.rc \
-    $(LOCAL_PATH)/fstab.tegratab:root/fstab.tegratab \
-    $(LOCAL_PATH)/init.tegratab.usb.rc:root/init.tegratab.usb.rc
-
-ifeq ($(NO_ROOT_DEVICE),1)
-  PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init_no_root_device.rc:root/init.rc
-endif
+    $(LOCAL_PATH)/configs/etc/power.tegratab.rc:system/etc/power.tegratab.rc \
+    $(LOCAL_PATH)/configs/root/init.hdcp.rc:root/init.hdcp.rc \
+    $(LOCAL_PATH)/configs/root/init.qvs.rc:root/init.qvs.rc \
+    $(LOCAL_PATH)/configs/root/init.tegratab.rc:root/init.tegratab.rc \
+    $(LOCAL_PATH)/configs/root/fstab.tegratab:root/fstab.tegratab \
+    $(LOCAL_PATH)/configs/root/init.tegratab.usb.rc:root/init.tegratab.usb.rc
 
 # Face detection model
 PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/core/include/ft/model_frontalface.xml:system/etc/model_frontal.xml
+    $(LOCAL_PATH)/configs/etc/model_frontalface.xml:system/etc/model_frontal.xml
 
 # Test files
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/../common/cluster:system/bin/cluster \
-    $(LOCAL_PATH)/../common/cluster_get.sh:system/bin/cluster_get.sh \
-    $(LOCAL_PATH)/../common/cluster_set.sh:system/bin/cluster_set.sh \
-    $(LOCAL_PATH)/../common/dcc:system/bin/dcc \
-    $(LOCAL_PATH)/../common/hotplug:system/bin/hotplug \
-    $(LOCAL_PATH)/../common/mount_debugfs.sh:system/bin/mount_debugfs.sh
+    $(LOCAL_PATH)/configs/bin/cluster:system/bin/cluster \
+    $(LOCAL_PATH)/configs/bin/cluster_get.sh:system/bin/cluster_get.sh \
+    $(LOCAL_PATH)/configs/bin/cluster_set.sh:system/bin/cluster_set.sh \
+    $(LOCAL_PATH)/configs/bin/hotplug:system/bin/hotplug \
+    $(LOCAL_PATH)/configs/bin/mount_debugfs.sh:system/bin/mount_debugfs.sh
 
 PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/graphics-partner/android/build/egl.cfg:system/lib/egl/egl.cfg
+    $(LOCAL_PATH)/configs/lib/egl/egl.cfg:system/lib/egl/egl.cfg
 
 PRODUCT_COPY_FILES += \
     device/nvidia/tegratab/nvcms/device.cfg:system/lib/nvcms/device.cfg
@@ -157,74 +99,14 @@ PRODUCT_COPY_FILES += \
 	external/alsa-lib/src/conf/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf \
 	external/alsa-lib/src/conf/pcm/front.conf:system/usr/share/alsa/pcm/front.conf \
 	external/alsa-lib/src/conf/cards/aliases.conf:system/usr/share/alsa/cards/aliases.conf \
-	device/nvidia/tegratab/asound.conf:system/etc/asound.conf
-
-ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
-# Configuration files for WiiMote support
-PRODUCT_COPY_FILES += \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/acc_ptr:system/etc/acc_ptr \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/nunchuk_acc_ptr:system/etc/nunchuk_acc_ptr \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/acc_led:system/etc/acc_led \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/neverball:system/etc/neverball \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/ir_ptr:system/etc/ir_ptr \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/gamepad:system/etc/gamepad \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/buttons:system/etc/buttons \
-	vendor/nvidia/tegra/3rdparty/cwiid/wminput/configs/nunchuk_stick2btn:system/etc/nunchuk_stick2btn
-endif
+	$(LOCAL_PATH)/configs/etc/asound.conf:system/etc/asound.conf
 
 PRODUCT_COPY_FILES += \
-	device/nvidia/tegratab/enctune.conf:system/etc/enctune.conf
+	$(LOCAL_PATH)/configs/etc/enctune.conf:system/etc/enctune.conf
 
 # nvcpud specific cpu frequencies config
 PRODUCT_COPY_FILES += \
-        device/nvidia/tegratab/nvcpud.conf:system/etc/nvcpud.conf
-
-# Stereo API permissions file has different locations in private and customer builds
-ifeq ($(wildcard vendor/nvidia/tegra/core-private),vendor/nvidia/tegra/core-private)
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/stereo/api/com.nvidia.nvstereoutils.xml:system/etc/permissions/com.nvidia.nvstereoutils.xml
-else
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/prebuilt/$(REFERENCE_DEVICE)/stereo/api/com.nvidia.nvstereoutils.xml:system/etc/permissions/com.nvidia.nvstereoutils.xml
-endif
-
-# Enable following APKs only for internal engineering build
-ifeq ($(wildcard vendor/nvidia/tegra/core-private),vendor/nvidia/tegra/core-private)
-PRODUCT_PACKAGES += \
-    NvwfdServiceTest
-endif
-
-# Nvidia Miracast
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/../common/miracast/com.nvidia.miracast.xml:system/etc/permissions/com.nvidia.miracast.xml
-
-# NvBlit JNI library
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/graphics-partner/android/frameworks/Graphics/com.nvidia.graphics.xml:system/etc/permissions/com.nvidia.graphics.xml
-
-# NCT ID help file
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/core/include/nvnct.h:README.nct_id
-
-# EULA
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/eula.html:system/etc/eula.html
-
-# Promotional content
-ifneq ($(TARGET_PRODUCT),kalamata)
-ifneq ($(wildcard vendor/nvidia/tegra/tegratab/partition-data/media_ad/Movies/TEGRA_NOTE_TapToTrack.mp4),)
-PRODUCT_COPY_FILES += \
-    vendor/nvidia/tegra/tegratab/partition-data/media_ad/Movies/TEGRA_NOTE_TapToTrack.mp4:data/media/Movies/TEGRA_NOTE_TapToTrack.mp4
-endif
-endif
-
-# User Manual
-ifneq ($(TARGET_PRODUCT),kalamata)
-    PRODUCT_COPY_FILES += $(LOCAL_PATH)/user_guide.sh:system/bin/user_guide.sh
-    ifneq ($(wildcard vendor/nvidia/tegra/tegratab/partition-data/media/TegraNOTE7UserGuide.pdf),)
-        PRODUCT_COPY_FILES += vendor/nvidia/tegra/tegratab/partition-data/media/TegraNOTE7UserGuide.pdf:system/media/TegraNOTE7UserGuide.pdf
-    endif
-endif
+        $(LOCAL_PATH)/configs/etc/nvcpud.conf:system/etc/nvcpud.conf
 
 #enable Widevine drm
 PRODUCT_PROPERTY_OVERRIDES += drm.service.enabled=true
@@ -262,7 +144,6 @@ PRODUCT_PACKAGES += \
 	Gallery2 \
 	libdrmframework_jni \
 	e2fsck \
-	nvidiafeedback \
         NVSS
 
 PRODUCT_PACKAGES += \
@@ -270,20 +151,6 @@ PRODUCT_PACKAGES += \
 	charger_res_images\
 
 PRODUCT_PACKAGES += nvaudio_test
-
-# WiiMote support
-PRODUCT_PACKAGES += \
-	libcwiid \
-	wminput \
-	acc \
-	ir_ptr \
-	led \
-	nunchuk_acc \
-	nunchuk_stick2btn
-
-# Application to connect WiiMote with Tegra device
-PRODUCT_PACKAGES += \
-	WiiMote
 
 #WiFi
 PRODUCT_PACKAGES += \
@@ -392,11 +259,7 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 
 PRODUCT_CHARACTERISTICS := tablet
 
-ifeq ($(TARGET_PRODUCT),kalamata)
-    PRODUCT_PACKAGE_OVERLAYS := $(LOCAL_PATH)/../../../vendor/nvidia/kalamata/overlay
-else
-    PRODUCT_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
-endif
+PRODUCT_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 
 # Set default USB interface
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
@@ -404,21 +267,3 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 
 # Set DPI
 PRODUCT_PROPERTY_OVERRIDES += ro.sf.lcd_density=213
-
-# Enable secure USB debugging in user release build
-ifeq ($(TARGET_BUILD_TYPE),release)
-ifeq ($(TARGET_BUILD_VARIANT),user)
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.adb.secure=1
-endif
-endif
-
-# Include ShieldTech
-ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
-SHIELDTECH_FEATURE_NVGALLERY := false
-SHIELDTECH_FEATURE_KEYBOARD := false
-SHIELDTECH_FEATURE_CONSOLE_MODE := false
-SHIELDTECH_FEATURE_BLAKE := false
-$(call inherit-product-if-exists, vendor/nvidia/shieldtech/common/shieldtech.mk)
-endif
-

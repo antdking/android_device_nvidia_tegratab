@@ -25,8 +25,8 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq (,$(filter-out tegra%,$(TARGET_BOARD_PLATFORM)))
-include $(NVIDIA_DEFAULTS)
+ifeq ($(TARGET_TEGRA_VERSION),t114)
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := nfc.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
@@ -34,5 +34,5 @@ LOCAL_SRC_FILES := nfc_hw.c
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE_TAGS := optional
 
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 endif

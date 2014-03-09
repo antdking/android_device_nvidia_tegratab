@@ -16,9 +16,7 @@
 
 LOCAL_PATH:= $(call my-dir)
 
-ifneq ($(TARGET_SIMULATOR),true)
-
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.base
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -32,11 +30,10 @@ LOCAL_C_INCLUDES += device/nvidia/drivers/sensors/mlsdk/mpl
 LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libdl libcutils libutils
 LOCAL_CPPFLAGS+=-DLINUX=1
-LOCAL_NVIDIA_NO_WARNINGS_AS_ERRORS := 1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.nvs_input
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -45,9 +42,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.mpl
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -64,11 +61,10 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libcutils libutils libdl libsensors.base \
 			  libmllite libmplmpu libsensors.nvs_input
 LOCAL_CPPFLAGS+=-DLINUX=1
-LOCAL_NVIDIA_NO_WARNINGS_AS_ERRORS := 1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.adxl34x
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -76,11 +72,10 @@ LOCAL_SRC_FILES := adxl34x.cpp
 LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
-LOCAL_NVIDIA_NO_WARNINGS_AS_ERRORS := 1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.isl29018
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -89,9 +84,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.isl29028
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -100,9 +95,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base libsensors.isl29018
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.ltr558als
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -111,9 +106,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.cm3217
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -122,9 +117,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.cm3218
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -133,9 +128,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.ltr659ps
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -144,9 +139,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 LOCAL_MODULE := libsensors.hwmon
 LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS := -DLOG_TAG=\"Sensors\"
@@ -155,11 +150,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := liblog libsensors.base
 LOCAL_CPPFLAGS+=-DLINUX=1
 LOCAL_PRELINK_MODULE := false
-include $(NVIDIA_SHARED_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
 
 subdir_makefiles := \
 	$(LOCAL_PATH)/mlsdk/Android.mk
 
 include $(subdir_makefiles)
-
-endif # !TARGET_SIMULATOR

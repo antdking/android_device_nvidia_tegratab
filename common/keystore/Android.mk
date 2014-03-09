@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifeq ($(SECURE_OS_BUILD),y)
-LOCAL_PATH := $(call my-dir)
+ifeq ($(TARGET_TEGRA_VERSION),t114)
 
-ifneq ($(TARGET_SIMULATOR),true)
-
-include $(NVIDIA_DEFAULTS)
+include $(CLEAR_VARS)
 
 # HAL module implemenation, not prelinked and stored in
 # hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.board.platform>.so
@@ -27,21 +24,14 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_SRC_FILES := keymaster.cpp
 
 LOCAL_C_INCLUDES := \
-»       3rdparty/trustedlogic/sdk/tegra4/tf_sdk/include \
-»       3rdparty/trustedlogic/sdk/tegra4/tegra4_secure_world_integration_kit/sddk/include \
-»       $(TEGRA_TOP)/core/include \
-»       external/openssl/include \
-»       system/security/keystore
+        system/core/include \
+        external/openssl/include \
+        system/security/keystore
 
 LOCAL_C_FLAGS = -fvisibility=hidden -Wall #-Werror
 
 LOCAL_SHARED_LIBRARIES := liblog libcrypto libtf_crypto_sst
 
 LOCAL_MODULE_TAGS := optional
-
-LOCAL_NVIDIA_NO_WARNINGS_AS_ERRORS := 1
-
-include $(NVIDIA_SHARED_LIBRARY)
-
-endif # !TARGET_SIMULATOR
-endif # SECURE_OS_BUILD
+include $(BUILD_SHARED_LIBRARY)
+endif

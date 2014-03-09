@@ -9,38 +9,26 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_SMP := true
-TARGET_USE_TEGRA_BIONIC_OPTIMIZATION := true
-TARGET_USE_TEGRA11_MEMCPY_OPTIMIZATION := true
+#TARGET_USE_TEGRA_BIONIC_OPTIMIZATION := true
+#TARGET_USE_TEGRA11_MEMCPY_OPTIMIZATION := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Skip droiddoc build to save build time
-BOARD_SKIP_ANDROID_DOC_BUILD := true
+#BOARD_SKIP_ANDROID_DOC_BUILD := true
 
-BOARD_BUILD_BOOTLOADER := true
-TARGET_USE_DTB := true
-TARGET_KERNEL_DT_NAME := tegra114-tegratab
-BOOTLOADER_SUPPORTS_DTB := true
-# It can be overridden by an environment variable
-APPEND_DTB_TO_KERNEL ?= false
-
-ifeq ($(NO_ROOT_DEVICE),1)
-  TARGET_PROVIDES_INIT_RC := true
-else
-  TARGET_PROVIDES_INIT_RC := false
-endif
+#BOARD_BUILD_BOOTLOADER := true
+#TARGET_USE_DTB := true
+#TARGET_KERNEL_DT_NAME := tegra114-tegratab
+#BOOTLOADER_SUPPORTS_DTB := true
 
 BOARD_USES_GENERIC_AUDIO := false
 BOARD_USES_ALSA_AUDIO := true
 BOARD_SUPPORT_NVOICE := true
-BOARD_SUPPORT_NVAUDIOFX := true
+#BOARD_SUPPORT_NVAUDIOFX := true
 
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 805306368
-ifeq ($(TARGET_PRODUCT),kalamata)
-  BOARD_USERDATAIMAGE_PARTITION_SIZE := 13704888320
-else
-  BOARD_USERDATAIMAGE_PARTITION_SIZE := 13600030720
-endif
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 13600030720
 BOARD_FLASH_BLOCK_SIZE := 4096
 
 TARGET_KERNEL_CONFIG := tegra_tegratab_android_defconfig
@@ -48,19 +36,7 @@ TARGET_KERNEL_CONFIG := tegra_tegratab_android_defconfig
 USE_E2FSPROGS := true
 USE_OPENGL_RENDERER := true
 
-# OTA
-TARGET_RECOVERY_UPDATER_LIBS += libnvrecoveryupdater
-TARGET_RECOVERY_UPDATER_EXTRA_LIBS += libfs_mgr
-
-ifeq ($(TARGET_PRODUCT),kalamata)
-ifneq ($(wildcard vendor/nvidia/kalamata/bluetooth-kalamata),)
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= vendor/nvidia/kalamata/bluetooth-kalamata
-else
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/nvidia/tegratab/bluetooth
-endif
-else
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR ?= device/nvidia/tegratab/bluetooth
-endif
 BOARD_HAVE_BLUETOOTH := true
 
 BOARD_HAVE_TI_BLUETOOTH := true
@@ -84,18 +60,12 @@ BOARD_HOSTAPD_DRIVER        := NL80211
 WIFI_DRIVER_MODULE_NAME     := "wlcore_sdio"
 WIFI_FIRMWARE_LOADER        := ""
 
-#NFC
-#BOARD_HAVE_NFC_TI	:= true
-
 # Default HDMI mirror mode
 # Crop (default) picks closest mode, crops to screen resolution
 # Scale picks closest mode, scales to screen resolution (aspect preserved)
 # Center picks a mode greater than or equal to the panel size and centers;
 #     if no suitable mode is available, reverts to scale
 BOARD_HDMI_MIRROR_MODE := Scale
-
-# NVDPS can be enabled when display is set to continuous mode.
-BOARD_HAS_NVDPS := true
 
 # This should be set to true for boards that support 3DVision.
 BOARD_HAS_3DV_SUPPORT := false
@@ -105,12 +75,6 @@ BOARD_HAS_3DV_SUPPORT := false
 # BOARD_DISABLE_TRIPLE_BUFFERED_DISPLAY_SURFACES := true
 
 BOARD_ROOT_DEVICE := emmc
-#include frameworks/base/data/sounds/AudioPackage3.mk
-include device/nvidia/common/BoardConfig.mk
-include vendor/nvidia/build/definitions.mk
-
-# Use CMU-style config with Nvcms
-NVCMS_CMU_USE_CONFIG := true
 
 -include 3rdparty/trustedlogic/samples/hdcp/tegra3/build/arm_android/config.mk
 
@@ -127,28 +91,11 @@ DALVIK_ENABLE_DYNAMIC_GC := true
 # bootloader/kernel
 TARGET_USE_NCT := true
 
-# enable factory bundle
-TARGET_BUILD_FACTORY := true
-
-# FRD(Factory RamDisk) is used
-# FRD depends on NCT feature
-TARGET_USE_FACTORY_RAMDISK := true
-
-# LBH related defines
-# use LBH partition and resources in it
-BOARD_HAVE_LBH_SUPPORT := true
-
-# Factory Test related defines
-BOARD_HAVE_NV_FACTORY_TEST := true
-
-# This should be set to true for boards that have promotional media files
-BOARD_HAVE_AD_MEDIA := true
-
 # Max panel brightness in the first device boot for OOBE
 # BOARD_FIRST_MAX_BRIGHTNESS_FOR_OOBE := true
 
 # Charger disable init blank
-BOARD_CHARGER_DISABLE_INIT_BLANK := true
+# BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMU enable forcibly from Android
 BOARD_CMU_ENABLE_FROM_ANDROID_BOOT := true
@@ -163,7 +110,7 @@ BOARD_CHARGER_UNPLUGGED_SHUTDOWN_PROMPTLY := true
 BOARD_PRISM_TOGGLE_SWITCH_ENABLED := true
 
 # board specific sepolicy
-BOARD_SEPOLICY_DIRS := device/nvidia/$(TARGET_DEVICE)/sepolicy
+BOARD_SEPOLICY_DIRS := device/nvidia/tegratab/sepolicy
 
 BOARD_SEPOLICY_UNION := healthd.te \
     installd.te \

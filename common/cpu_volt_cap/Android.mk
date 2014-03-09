@@ -25,17 +25,11 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq (,$(filter-out tegra%,$(TARGET_BOARD_PLATFORM)))
-include $(NVIDIA_DEFAULTS)
+ifeq ($(TARGET_TEGRA_VERSION),t114)
+include $(CLEAR_VARS)
 
 LOCAL_MODULE := nvcpuvoltcapd
-ifeq ($(TARGET_TEGRA_VERSION),t114)
-	LOCAL_SRC_FILES := $(TARGET_TEGRA_VERSION)_table.c
-endif
-#default
-ifneq ($(TARGET_TEGRA_VERSION),t114)
-	LOCAL_SRC_FILES := t114_table.c
-endif
+LOCAL_SRC_FILES := t114_table.c
 LOCAL_SRC_FILES += cpu_volt_cap.c
 LOCAL_SHARED_LIBRARIES := libnetlink liblog libcutils libutils libhardware_legacy
 LOCAL_STATIC_LIBRARIES := libnl_2
@@ -43,4 +37,4 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_C_INCLUDES := $(KERNEL_HEADERS) \
 			external/libnl-headers
 endif
-include $(NVIDIA_EXECUTABLE)
+include $(BUILD_EXECUTABLE)
