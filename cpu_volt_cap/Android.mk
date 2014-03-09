@@ -23,9 +23,8 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-LOCAL_PATH := $(call my-dir)
-
 ifeq ($(TARGET_DEVICE),tegratab)
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := nvcpuvoltcapd

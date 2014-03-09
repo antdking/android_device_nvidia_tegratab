@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-LOCAL_PATH:= $(call my-dir)
+ifeq ($(TARGET_DEVICE),tegratab)
 
 # HAL module implemenation, not prelinked and stored in
 # hw/<COPYPIX_HARDWARE_MODULE_ID>.<ro.board.platform>.so
@@ -31,3 +31,4 @@ LOCAL_SHARED_LIBRARIES := liblog
 LOCAL_MODULE := lights.tegratab
 
 include $(BUILD_SHARED_LIBRARY)
+endif
