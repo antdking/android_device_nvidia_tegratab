@@ -23,9 +23,8 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-LOCAL_PATH := $(call my-dir)
+ifeq ($(TARGET_DEVICE),tegratab)
 
-ifeq ($(TARGET_TEGRA_VERSION),t114)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := nfc.$(TARGET_BOARD_PLATFORM)

@@ -25,26 +25,17 @@
 
 LOCAL_PATH := $(call my-dir)
 
-ifeq ($(TARGET_TEGRA_VERSION),t114)
+ifeq ($(TARGET_DEVICE),tegratab)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := libpowerhal
-LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
-
-#ifeq ($(NV_ANDROID_FRAMEWORK_ENHANCEMENTS),TRUE)
-#    ifeq ($(BOARD_USES_POWERHAL),true)
-#        LOCAL_SRC_FILES += nvpowerhal.cpp timeoutpoker.cpp
-#    else
-#        LOCAL_SRC_FILES += powerhal_stub.cpp
-#    endif
-#else
-    LOCAL_SRC_FILES += powerhal_stub.cpp
-#endif
-
-LOCAL_SRC_FILES += powerhal_utils.cpp
-
-LOCAL_SHARED_LIBRARIES := liblog libcutils libutils
+LOCAL_MODULE := nvcpuvoltcapd
+LOCAL_SRC_FILES := t114_table.c
+LOCAL_SRC_FILES += cpu_volt_cap.c
+LOCAL_SHARED_LIBRARIES := libnetlink liblog libcutils libutils libhardware_legacy
+LOCAL_STATIC_LIBRARIES := libnl_2
 LOCAL_MODULE_TAGS := optional
-
-include $(BUILD_STATIC_LIBRARY)
+LOCAL_C_INCLUDES := $(KERNEL_HEADERS) \
+			external/libnl-headers
+include $(BUILD_EXECUTABLE)
 endif
+

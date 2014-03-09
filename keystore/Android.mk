@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifeq ($(TARGET_TEGRA_VERSION),t114)
+ifeq ($(TARGET_DEVICE),tegratab)
 
 include $(CLEAR_VARS)
 

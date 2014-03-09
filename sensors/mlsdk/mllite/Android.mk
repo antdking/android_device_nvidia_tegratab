@@ -24,12 +24,11 @@ LOCAL_CFLAGS += -DLINUX
 
 LOCAL_SRC_FILES := $(call all-c-files-under)
 
-LOCAL_C_INCLUDES := device/nvidia/drivers/sensors/mlsdk/driver/include
+LOCAL_C_INCLUDES := $(LOCAL_PATH)../driver/include
 
 LOCAL_SHARED_LIBRARIES := liblog
 
 LOCAL_PRELINK_MODULE := false
 
 #TODO: Remove following lines before include statement and fix the source giving warnings/errors
-LOCAL_NVIDIA_NO_WARNINGS_AS_ERRORS := 1
 include $(BUILD_SHARED_LIBRARY)
